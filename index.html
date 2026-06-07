@@ -6,7 +6,7 @@
   <title>박민지 포트폴리오</title>
   <style>
     /* ==========================================================================
-       [기본 라이트 모드 CSS 스타일]
+       [1. 처음 레이아웃을 고정하는 기본 라이트 모드 스타일]
        ========================================================================== */
     * {
       box-sizing: border-box;
@@ -31,6 +31,7 @@
       text-decoration: none;
     }
 
+    /* 상단 메뉴바 레이아웃 유지 */
     .site-header {
       position: sticky;
       top: 0;
@@ -67,6 +68,7 @@
       color: #3b5bdb;
     }
 
+    /* 토글 스위치 형태 유지 */
     .switch-container {
       display: flex;
       align-items: center;
@@ -96,6 +98,7 @@
       transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
+    /* 첫 화면 히어로 레이아웃 (Flex 가로 정렬 고정) */
     .hero {
       min-height: 85vh;
       padding: 80px 8%;
@@ -183,6 +186,7 @@
       border: 1px solid #3b5bdb;
     }
 
+    /* 프로필 카드 깨짐 방지 우측 정렬 유지 */
     .profile-card {
       width: 300px;
       padding: 28px;
@@ -201,6 +205,7 @@
     .profile-card h3 {
       font-size: 24px;
       color: #222;
+      margin-top: 0;
     }
 
     .section {
@@ -446,9 +451,11 @@
       box-shadow: 0 10px 20px rgba(59, 91, 219, 0.18);
     }
 
+    /* 방명록 폼 크기 고정 및 쏠림 복구 */
     .memo-form {
       margin-top: 28px;
       max-width: 700px;
+      width: 100%;
     }
 
     fieldset {
@@ -542,6 +549,86 @@
       100% { transform: translateY(0); }
     }
 
+    @media screen and (max-width: 1024px) {
+      .hero { flex-direction: column; text-align: center; }
+      .hero-text p { margin-left: auto; margin-right: auto; }
+      .button-group { justify-content: center; }
+      .assignment-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media screen and (max-width: 768px) {
+      .site-header { flex-direction: column; gap: 14px; }
+      .nav { justify-content: center; flex-wrap: wrap; gap: 12px; }
+      .hero { padding: 60px 6%; }
+      .hero h2 { font-size: 32px; }
+      .profile-card { width: 100%; max-width: 320px; }
+      .section { padding: 60px 6%; }
+      .section h2 { font-size: 26px; }
+      .assignment-grid { grid-template-columns: 1fr; }
+      .project-links a, .link-area a { width: 100%; text-align: center; }
+    }
+
+    .profile-circle {
+      width: 150px;
+      height: 150px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: #dfe7ff;
+    }
+
+    .profile-circle img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .section-desc p { margin-bottom: 10px; line-height: 1.6; }
+    .section-desc p:last-child { margin-bottom: 0; }
+
+    .memo-form textarea {
+      width: 100%;
+      height: 120px;
+      margin-top: 14px;
+      padding: 18px;
+      border: 2px solid #dfe4f2;
+      border-radius: 12px;
+      background-color: #eef1f7;
+      font-size: 16px;
+      color: #333;
+      resize: none;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .memo-form textarea:focus {
+      border-color: #5b74f1;
+      background-color: #ffffff;
+    }
+
+    .memo-form textarea::placeholder { color: #6b7280; }
+
+    .feedback-btn {
+      display: block;
+      margin-left: auto;
+      margin-top: 14px;
+      padding: 16px 26px;
+      border: none;
+      border-radius: 10px;
+      background-color: #5b74f1;
+      color: white;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .feedback-btn:hover { background-color: #3f5eea; }
+
+    /* ==========================================================================
+       [2. 핵심 수정: 원본 구조에 상처를 주지 않고 색상만 변경하는 다크모드 컴포넌트]
+       ========================================================================== */
     body.dark-mode {
       background: #111827;
       color: #f9fafb;
@@ -572,6 +659,7 @@
       background: linear-gradient(135deg, #111827, #1f2937, #111827);
     }
 
+    /* 처음 설정된 위치 정보(width, flex 등)를 건드리지 않고 오직 색깔만 스위칭 */
     body.dark-mode .profile-card,
     body.dark-mode .section-desc,
     body.dark-mode .assignment-card,
@@ -807,7 +895,7 @@
         <h3>Secure Web</h3>
         <p>웹 보안, 애플리케이션 보안, network 보안 등 정보보호 분야의 핵심 보안 기술을 조사하고 정리한 팀프로젝트입니다.</p>
 
-        <span class="open-modal-btn" data-img="images/mid_project.png" data-title="중간고사 프로젝트 (Secure Web) 디자인 화면">📷</span>
+        <span class="open-modal-btn" data-img="images/mid_project.png" data-title="중간고사 프로젝트 (Secure Web) 디자인 화면">📷 [프로젝트 캡처 이미지 보기]</span>
 
         <dl class="role-list">
           <dt>프로젝트 주제</dt>
@@ -838,10 +926,10 @@
 
       <article class="team-box">
         <span class="label" style="background: #eebfef; color: #b83bdb; font-size: 12px; padding: 4px 10px; margin-bottom: 10px;">기말고사 프로젝트</span>
-        <h3>SecureWeb</h3>
+        <h3>SecureWeb - 보안 웹 애플리케이션 구현 및 취약점 검증</h3>
         <p>중간고사 때 조사한 웹 보안 이론을 바탕으로, 실제 로그인·회원가입 기능과 커뮤니티 게시판을 갖춘 웹 서비스를 구현하고 OWASP Top 10 기반의 보안 취약점을 방어 및 검증한 턴키 프로젝트입니다.</p>
 
-        <span class="open-modal-btn" data-img="images/final_project.png" data-title="기말고사 프로젝트 (SecureWeb 보안 플랫폼) 데모 화면">📷</span>
+        <span class="open-modal-btn" data-img="images/final_project.png" data-title="기말고사 프로젝트 (SecureWeb 보안 플랫폼) 데모 화면">📷 [프로젝트 캡처 이미지 보기]</span>
 
         <dl class="role-list">
           <dt>프로젝트 주제</dt>
