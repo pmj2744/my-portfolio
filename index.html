@@ -4,7 +4,502 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>박민지 포트폴리오</title>
-  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ==========================================================================
+       [기본 CSS 스타일 설정]
+       ========================================================================== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      color: #222;
+      background: #f5f7fb;
+      line-height: 1.6;
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding: 20px 8%;
+      background: #ffffff;
+      border-bottom: 1px solid #e5e8ef;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+
+    .logo {
+      font-size: 20px;
+      color: #3b5bdb;
+      letter-spacing: 1px;
+    }
+
+    .nav {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .nav a {
+      font-size: 14px;
+      font-weight: bold;
+      color: #555;
+      transition: color 0.3s ease;
+    }
+
+    .nav a:hover {
+      color: #3b5bdb;
+    }
+
+    .hero {
+      min-height: 85vh;
+      padding: 80px 8%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 60px;
+      background: linear-gradient(135deg, #e9efff, #ffffff, #dbe4ff);
+      transition: background 0.3s ease;
+    }
+
+    .hero-text {
+      flex: 1;
+      animation: fadeUp 1s ease;
+    }
+
+    .label {
+      display: inline-block;
+      margin-bottom: 16px;
+      padding: 6px 14px;
+      border-radius: 30px;
+      background: #dfe7ff;
+      color: #3b5bdb;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .hero h2 {
+      margin-bottom: 20px;
+      font-size: 44px;
+      line-height: 1.25;
+    }
+
+    .hero-text p {
+      max-width: 650px;
+      color: #555;
+    }
+
+    .button-group {
+      margin-top: 30px;
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 12px 22px;
+      border-radius: 12px;
+      font-weight: bold;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 20px rgba(59, 91, 219, 0.18);
+    }
+
+    .primary {
+      background: linear-gradient(135deg, #3b5bdb, #748ffc);
+      color: #ffffff;
+    }
+
+    .primary:hover {
+      background: linear-gradient(135deg, #243c9f, #5c7cfa);
+    }
+
+    .secondary {
+      background: #ffffff;
+      color: #3b5bdb;
+      border: 1px solid #3b5bdb;
+    }
+
+    .profile-card {
+      width: 300px;
+      padding: 28px;
+      background: #ffffff;
+      border-radius: 24px;
+      text-align: center;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+      animation: fadeUp 1.2s ease;
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .profile-card:hover {
+      animation: floating 1.8s ease-in-out infinite;
+    }
+
+    .profile-card h3 {
+      margin-bottom: 6px;
+      font-size: 24px;
+      color: #222;
+    }
+
+    .profile-card p {
+      color: #666;
+    }
+
+    .section {
+      padding: 80px 8%;
+    }
+
+    .section h2 {
+      margin-bottom: 24px;
+      font-size: 32px;
+    }
+
+    .section-desc { 
+      max-width: 900px; 
+      padding: 28px; 
+      background: #ffffff; 
+      border-radius: 18px; 
+      color: #555; 
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06); 
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+      
+    .skill-list {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .skill-list li {
+      padding: 12px 18px;
+      background: #ffffff;
+      border: 1px solid #dfe4f2;
+      border-radius: 30px;
+      color: #3b5bdb;
+      font-weight: bold;
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .skill-list li:hover {
+      transform: translateY(-4px);
+      background: linear-gradient(135deg, #eef2ff, #ffffff);
+    }
+
+    .assignment-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .assignment-card {
+      overflow: hidden;
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+      transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .assignment-card:hover {
+      transform: scale(1.03);
+      background: linear-gradient(135deg, #ffffff, #eef2ff);
+    }
+
+    .card-image {
+      height: 180px;
+      background: linear-gradient(135deg, #3b5bdb, #91a7ff);
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 34px;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    .card-content {
+      padding: 24px;
+    }
+
+    .assignment-card h3 {
+      margin-bottom: 10px;
+      font-size: 21px;
+      color: #222;
+    }
+
+    .assignment-card p {
+      margin-bottom: 16px;
+      color: #555;
+    }
+
+    .assignment-card span {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 20px;
+      background: #eef2ff;
+      color: #3b5bdb;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .team-box {
+      padding: 34px;
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    .team-box h3 {
+      margin-bottom: 14px;
+      font-size: 24px;
+      color: #222;
+    }
+
+    .team-box > p {
+      margin-bottom: 24px;
+      color: #555;
+    }
+
+    .role-list {
+      margin-bottom: 26px;
+    }
+
+    .role-list dt {
+      margin-top: 14px;
+      color: #3b5bdb;
+      font-weight: bold;
+    }
+
+    .role-list dd {
+      margin-top: 6px;
+      color: #555;
+    }
+
+    .project-links,
+    .link-area {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .project-links a,
+    .link-area a {
+      padding: 12px 18px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #3b5bdb, #748ffc);
+      color: #ffffff;
+      font-weight: bold;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .project-links a:hover,
+    .link-area a:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 20px rgba(59, 91, 219, 0.18);
+    }
+
+    .memo-form {
+      margin-top: 28px;
+      max-width: 700px;
+    }
+
+    fieldset {
+      padding: 24px;
+      border: 1px solid #dfe4f2;
+      border-radius: 18px;
+      background: #ffffff;
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+
+    legend {
+      padding: 0 10px;
+      color: #3b5bdb;
+      font-weight: bold;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    .notice {
+      margin-top: 18px;
+      color: #666;
+      font-size: 14px;
+    }
+
+    .footer {
+      padding: 28px 8%;
+      background: #1f2937;
+      color: #ffffff;
+      text-align: center;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes floating {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+      100% { transform: translateY(0); }
+    }
+
+    @media screen and (max-width: 1024px) {
+      .hero { flex-direction: column; text-align: center; }
+      .hero-text p { margin-left: auto; margin-right: auto; }
+      .button-group { justify-content: center; }
+      .assignment-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media screen and (max-width: 768px) {
+      .site-header { flex-direction: column; gap: 14px; }
+      .nav { justify-content: center; flex-wrap: wrap; gap: 12px; }
+      .hero { padding: 60px 6%; }
+      .hero h2 { font-size: 32px; }
+      .profile-card { width: 100%; max-width: 320px; }
+      .section { padding: 60px 6%; }
+      .section h2 { font-size: 26px; }
+      .assignment-grid { grid-template-columns: 1fr; }
+      .project-links a, .link-area a { width: 100%; text-align: center; }
+    }
+
+    .profile-circle {
+      width: 150px;
+      height: 150px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: #dfe7ff;
+    }
+
+    .profile-circle img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .section-desc p { margin-bottom: 10px; line-height: 1.6; }
+    .section-desc p:last-child { margin-bottom: 0; }
+
+    .memo-form textarea {
+      width: 100%;
+      height: 120px;
+      margin-top: 14px;
+      padding: 18px;
+      border: 2px solid #dfe4f2;
+      border-radius: 12px;
+      background-color: #eef1f7;
+      font-size: 16px;
+      color: #333;
+      resize: none;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .memo-form textarea:focus {
+      border-color: #5b74f1;
+      background-color: #ffffff;
+    }
+
+    .memo-form textarea::placeholder { color: #6b7280; }
+
+    .feedback-btn {
+      display: block;
+      margin-left: auto;
+      margin-top: 14px;
+      padding: 16px 26px;
+      border: none;
+      border-radius: 10px;
+      background-color: #5b74f1;
+      color: white;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .feedback-btn:hover { background-color: #3f5eea; }
+
+    /* ==========================================================================
+       [핵심 수정] 완벽한 다크 모드 오버라이딩 클래스 설계 
+       ========================================================================== */
+    body.dark-mode {
+      background: #111827;
+      color: #f9fafb;
+    }
+
+    body.dark-mode .site-header {
+      background: #1f2937;
+      border-bottom-color: #374151;
+    }
+
+    body.dark-mode .nav a {
+      color: #d1d5db;
+    }
+
+    body.dark-mode .nav a:hover {
+      color: #6366f1;
+    }
+
+    body.dark-mode .hero {
+      background: linear-gradient(135deg, #111827, #1f2937, #111827);
+    }
+
+    body.dark-mode .profile-card,
+    body.dark-mode .section-desc,
+    body.dark-mode .assignment-card,
+    body.dark-mode .team-box,
+    body.dark-mode fieldset {
+      background: #1f2937;
+      border-color: #374151;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    body.dark-mode .profile-card h3,
+    body.dark-mode .assignment-card h3,
+    body.dark-mode .team-box h3 {
+      color: #ffffff;
+    }
+
+    body.dark-mode .hero-text p,
+    body.dark-mode .profile-card p,
+    body.dark-mode .section-desc p,
+    body.dark-mode .assignment-card p,
+    body.dark-mode .team-box > p,
+    body.dark-mode .role-list dd {
+      color: #9ca3af;
+    }
+
+    body.dark-mode .memo-form textarea {
+      background-color: #111827;
+      border-color: #374151;
+      color: #ffffff;
+    }
+  </style>
 </head>
 <body>
 
@@ -17,7 +512,7 @@
       <a href="#assignments">Study</a>
       <a href="#team">Team</a>
       <a href="#links">Links</a>
-      <button id="theme-toggle-btn" style="padding: 6px 12px; background: #3b5bdb; color: #fff; border: none; border-radius: 20px; cursor: pointer; font-size: 13px; font-weight: bold; transition: all 0.3s;">다크 모드</button>
+      <button id="theme-toggle-btn" style="padding: 6px 14px; background: #3b5bdb; color: #fff; border: none; border-radius: 20px; cursor: pointer; font-size: 13px; font-weight: bold; transition: all 0.3s; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">다크 모드 보기</button>
     </nav>
   </header>
 
@@ -215,14 +710,13 @@
 
   <script>
     /* -------------------------------------------------------------
-       [기능 1] '더 보기' 링크 클릭 시 내용 표시 (중간고사용 - 1번 세트)
+       [기능 1] '더 보기' 링크 클릭 시 내용 표시 (중간고사용)
     ------------------------------------------------------------- */
     const moreLink1 = document.querySelector("#more-link1");
     const moreDesc1 = document.querySelector("#more-desc1");
 
     moreLink1.addEventListener("click", function(event) {
       event.preventDefault(); 
-      
       if (moreDesc1.style.display === "none") {
         moreDesc1.style.display = "block"; 
         moreLink1.innerText = "[상세 역할 접기]";
@@ -233,14 +727,13 @@
     });
 
     /* -------------------------------------------------------------
-       [기능 1-2] '더 보기' 링크 클릭 시 내용 표시 (기말고사용 - 2번 세트 추가)
+       [기능 1-2] '더 보기' 링크 클릭 시 내용 표시 (기말고사용)
     ------------------------------------------------------------- */
     const moreLink2 = document.querySelector("#more-link2");
     const moreDesc2 = document.querySelector("#more-desc2");
 
     moreLink2.addEventListener("click", function(event) {
       event.preventDefault(); 
-      
       if (moreDesc2.style.display === "none") {
         moreDesc2.style.display = "block"; 
         moreLink2.innerText = "[상세 역할 접기]";
@@ -250,9 +743,8 @@
       }
     });
 
-
     /* -------------------------------------------------------------
-       [기능 2] DOM 노드 동적 생성 및 추가 (강의자료 183~190p 내용)
+       [기능 2] DOM 노드 동적 생성 및 추가 (방명록 한 줄 메모)
     ------------------------------------------------------------- */
     const submitMemoBtn = document.querySelector("#submit-memo-btn");
     const feedbackInput = document.querySelector("#feedback");
@@ -260,14 +752,49 @@
 
     submitMemoBtn.addEventListener("click", function() {
       const textValue = feedbackInput.value.trim();
-      
       if (textValue === "") {
-        alert("보완할 내용을 입력해 주세요!");
+        alert("내용을 입력해 주세요!");
         return;
       }
 
       const newLi = document.createElement("li");
-      
       newLi.style.padding = "10px 14px";
       newLi.style.background = "#f0f4ff";
-      newLi.style.borderLeft = "4px
+      newLi.style.borderLeft = "4px solid #748ffc";
+      newLi.style.marginBottom = "8px";
+      newLi.style.borderRadius = "4px";
+      newLi.style.color = "#333";
+      newLi.style.fontSize = "14px";
+
+      const newText = document.createTextNode(textValue);
+      newLi.appendChild(newText);
+      memoList.appendChild(newLi);
+
+      feedbackInput.value = "";
+    });
+
+    /* -------------------------------------------------------------
+       [기능 3 - 버그 수정 완료] classList.toggle을 사용한 정석 다크모드 제어
+       - 일일이 요소를 스크립트로 제어하지 않고 클래스를 주입하여 CSS 스위칭
+    ------------------------------------------------------------- */
+    const themeToggleBtn = document.querySelector("#theme-toggle-btn");
+    
+    themeToggleBtn.addEventListener("click", function() {
+      // body 태그에 dark-mode 클래스가 있으면 제거하고, 없으면 추가 (강의자료 응용)
+      document.body.classList.toggle("dark-mode");
+      
+      // 현재 모드 상태에 따른 버튼 텍스트 및 디자인 변경
+      if (document.body.classList.contains("dark-mode")) {
+        themeToggleBtn.innerText = "라이트 모드 보기";
+        themeToggleBtn.style.backgroundColor = "#ffffff";
+        themeToggleBtn.style.color = "#1f2937";
+      } else {
+        themeToggleBtn.innerText = "다크 모드 보기";
+        themeToggleBtn.style.backgroundColor = "#3b5bdb";
+        themeToggleBtn.style.color = "#ffffff";
+      }
+    });
+  </script>
+
+</body>
+</html>
