@@ -6,7 +6,7 @@
   <title>박민지 포트폴리오</title>
   <style>
     /* ==========================================================================
-       [기본 CSS 스타일 설정]
+       [기본 라이트 모드 CSS 스타일]
        ========================================================================== */
     * {
       box-sizing: border-box;
@@ -65,6 +65,25 @@
 
     .nav a:hover {
       color: #3b5bdb;
+    }
+
+    /* 토글 버튼 기본 스타일 지정 */
+    #theme-toggle-btn {
+      padding: 8px 16px;
+      background: #3b5bdb;
+      color: #ffffff;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    #theme-toggle-btn:hover {
+      background: #243c9f;
+      transform: translateY(-1px);
     }
 
     .hero {
@@ -180,7 +199,7 @@
       border-radius: 18px; 
       color: #555; 
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06); 
-      transition: background 0.3s ease, color 0.3s ease;
+      transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
     }
       
     .skill-list {
@@ -197,7 +216,7 @@
       border-radius: 30px;
       color: #3b5bdb;
       font-weight: bold;
-      transition: transform 0.3s ease, background 0.3s ease;
+      transition: all 0.3s ease;
     }
 
     .skill-list li:hover {
@@ -216,7 +235,7 @@
       background: #ffffff;
       border-radius: 20px;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
-      transition: transform 0.3s ease, background 0.3s ease;
+      transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
     }
 
     .assignment-card:hover {
@@ -259,6 +278,7 @@
       color: #3b5bdb;
       font-size: 13px;
       font-weight: bold;
+      transition: background 0.3s ease, color 0.3s ease;
     }
 
     .team-box {
@@ -266,7 +286,7 @@
       background: #ffffff;
       border-radius: 20px;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
-      transition: background 0.3s ease, color 0.3s ease;
+      transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
     }
 
     .team-box h3 {
@@ -445,7 +465,7 @@
     .feedback-btn:hover { background-color: #3f5eea; }
 
     /* ==========================================================================
-       [핵심 수정] 완벽한 다크 모드 오버라이딩 클래스 설계 
+       [핵심 수정] 부자연스러운 흰색 요소를 정돈한 완벽 다크 모드 오버라이딩 스타일
        ========================================================================== */
     body.dark-mode {
       background: #111827;
@@ -476,7 +496,7 @@
     body.dark-mode fieldset {
       background: #1f2937;
       border-color: #374151;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
     }
 
     body.dark-mode .profile-card h3,
@@ -499,6 +519,33 @@
       border-color: #374151;
       color: #ffffff;
     }
+
+    /* 🚨 [핵심 해결] 다크 모드 시 흰색 동그라미 버튼(li, span) 자연스럽게 색상 전환 */
+    body.dark-mode .skill-list li {
+      background: #111827;
+      border-color: #374151;
+      color: #818cf8;
+    }
+
+    body.dark-mode .skill-list li:hover {
+      background: #2d3748;
+      color: #a5b4fc;
+    }
+
+    body.dark-mode .assignment-card span {
+      background: #111827;
+      color: #818cf8;
+    }
+
+    /* 다크 모드 상태일 때 테마 스위치 단추 전용 컴포넌트 스타일 */
+    body.dark-mode #theme-toggle-btn {
+      background: #ffffff;
+      color: #111827;
+    }
+    
+    body.dark-mode #theme-toggle-btn:hover {
+      background: #e5e7eb;
+    }
   </style>
 </head>
 <body>
@@ -512,7 +559,8 @@
       <a href="#assignments">Study</a>
       <a href="#team">Team</a>
       <a href="#links">Links</a>
-      <button id="theme-toggle-btn" style="padding: 6px 14px; background: #3b5bdb; color: #fff; border: none; border-radius: 20px; cursor: pointer; font-size: 13px; font-weight: bold; transition: all 0.3s; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">다크 모드 보기</button>
+      <!-- 단독 버튼 컴포넌트 형식으로 배치 -->
+      <button id="theme-toggle-btn">다크 모드 보기</button>
     </nav>
   </header>
 
@@ -600,6 +648,7 @@
     <section id="team" class="section">
       <h2>Team Project</h2>
       
+      <!-- [1] 중간고사 프로젝트 카드 -->
       <article class="team-box" style="margin-bottom: 40px;">
         <span class="label" style="background: #dfe7ff; color: #3b5bdb; font-size: 12px; padding: 4px 10px; margin-bottom: 10px;">중간고사 프로젝트</span>
         <h3>Secure Web</h3>
@@ -635,6 +684,7 @@
         </div>
       </article>
 
+      <!-- [2] 기말고사 프로젝트 카드 -->
       <article class="team-box">
         <span class="label" style="background: #eebfef; color: #b83bdb; font-size: 12px; padding: 4px 10px; margin-bottom: 10px;">기말고사 프로젝트</span>
         <h3>SecureWeb - 보안 웹 애플리케이션 구현 및 취약점 검증</h3>
@@ -774,24 +824,18 @@
     });
 
     /* -------------------------------------------------------------
-       [기능 3 - 버그 수정 완료] classList.toggle을 사용한 정석 다크모드 제어
-       - 일일이 요소를 스크립트로 제어하지 않고 클래스를 주입하여 CSS 스위칭
+       [기능 3] classList.toggle을 사용한 정석 다크모드 제어
     ------------------------------------------------------------- */
     const themeToggleBtn = document.querySelector("#theme-toggle-btn");
     
     themeToggleBtn.addEventListener("click", function() {
-      // body 태그에 dark-mode 클래스가 있으면 제거하고, 없으면 추가 (강의자료 응용)
       document.body.classList.toggle("dark-mode");
       
-      // 현재 모드 상태에 따른 버튼 텍스트 및 디자인 변경
+      // 현재 모드 상태에 따른 단추 문자열 스위칭
       if (document.body.classList.contains("dark-mode")) {
         themeToggleBtn.innerText = "라이트 모드 보기";
-        themeToggleBtn.style.backgroundColor = "#ffffff";
-        themeToggleBtn.style.color = "#1f2937";
       } else {
         themeToggleBtn.innerText = "다크 모드 보기";
-        themeToggleBtn.style.backgroundColor = "#3b5bdb";
-        themeToggleBtn.style.color = "#ffffff";
       }
     });
   </script>
