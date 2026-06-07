@@ -13,6 +13,7 @@ body {
   color: #222;
   background: #f5f7fb;
   line-height: 1.6;
+  transition: background 0.3s ease, color 0.3s ease; /* 다크모드 전환 시 부드러운 효과 */
 }
 
 a {
@@ -41,6 +42,7 @@ a {
 .nav {
   display: flex;
   gap: 24px;
+  align-items: center;
 }
 
 .nav a {
@@ -139,23 +141,10 @@ a {
   animation: floating 1.8s ease-in-out infinite;
 }
 
-.profile-circle {
-  width: 150px;
-  height: 150px;
-  margin: 0 auto 20px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #3b5bdb, #748ffc);
-  color: #ffffff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 42px;
-  font-weight: bold;
-}
-
 .profile-card h3 {
   margin-bottom: 6px;
   font-size: 24px;
+  color: #222;
 }
 
 .profile-card p {
@@ -172,10 +161,13 @@ a {
 }
 
 .section-desc { 
-  max-width: 900px; padding: 28px; 
+  max-width: 900px; 
+  padding: 28px; 
   background: #ffffff; 
-  border-radius: 18px; color: #555; 
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06); }
+  border-radius: 18px; 
+  color: #555; 
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06); 
+}
   
 .skill-list {
   list-style: none;
@@ -237,6 +229,7 @@ a {
 .assignment-card h3 {
   margin-bottom: 10px;
   font-size: 21px;
+  color: #222;
 }
 
 .assignment-card p {
@@ -295,6 +288,7 @@ a {
 .team-box h3 {
   margin-bottom: 14px;
   font-size: 24px;
+  color: #222;
 }
 
 .team-box > p {
@@ -364,18 +358,6 @@ label {
   font-weight: bold;
 }
 
-textarea {
-  width: 100%;
-  min-height: 100px;
-  padding: 14px;
-  border: 1px solid #dfe4f2;
-  border-radius: 12px;
-  resize: none;
-  font-family: inherit;
-  color: #555;
-  background: #f8f9ff;
-}
-
 .notice {
   margin-top: 18px;
   color: #666;
@@ -401,19 +383,11 @@ textarea {
   }
 }
 
-/* 애니메이션: 프로필 카드에 마우스를 올렸을 때 살짝 떠 있는 효과 */
+/* 애니메이션: 프로필 카드 효과 */
 @keyframes floating {
-  0% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-8px);
-  }
-
-  100% {
-    transform: translateY(0);
-  }
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0); }
 }
 
 /* 태블릿 화면 */
@@ -422,68 +396,55 @@ textarea {
     flex-direction: column;
     text-align: center;
   }
-
   .hero-text p {
     margin-left: auto;
     margin-right: auto;
   }
-
   .button-group {
     justify-content: center;
   }
-
   .assignment-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-/* 모바일 화면 */
+/* 모바일 화면 (중괄호 누수 수정 완료) */
 @media screen and (max-width: 768px) {
   .site-header {
     flex-direction: column;
     gap: 14px;
   }
-
   .nav {
     justify-content: center;
     flex-wrap: wrap;
     gap: 12px;
   }
-
   .hero {
     padding: 60px 6%;
   }
-
   .hero h2 {
     font-size: 32px;
   }
-
   .profile-card {
     width: 100%;
     max-width: 320px;
   }
-
   .section {
     padding: 60px 6%;
   }
-
   .section h2 {
     font-size: 26px;
   }
-
   .assignment-grid {
     grid-template-columns: 1fr;
   }
-
   .summary-table {
     font-size: 14px;
   }
-
   .summary-table th,
   .summary-table td {
     padding: 12px;
   }
-
   .project-links a,
   .link-area a {
     width: 100%;
@@ -491,6 +452,7 @@ textarea {
   }
 }
 
+/* 프로필 이미지 동그라미 스타일 */
 .profile-circle {
   width: 150px;
   height: 150px;
@@ -516,24 +478,25 @@ textarea {
   margin-bottom: 0;
 }
 
-
-
-
-
+/* 메모장 및 피드백 스타일 하단 배치 */
 .memo-form textarea {
   width: 100%;
   height: 120px;
   margin-top: 14px;
   padding: 18px;
-
-  border: 2px solid #333;
+  border: 2px solid #dfe4f2;
   border-radius: 12px;
   background-color: #eef1f7;
-
   font-size: 16px;
   color: #333;
   resize: none;
   outline: none;
+  transition: all 0.3s ease;
+}
+
+.memo-form textarea:focus {
+  border-color: #5b74f1;
+  background-color: #ffffff;
 }
 
 .memo-form textarea::placeholder {
@@ -544,21 +507,17 @@ textarea {
   display: block;
   margin-left: auto;
   margin-top: 14px;
-
   padding: 16px 26px;
   border: none;
   border-radius: 10px;
-
   background-color: #5b74f1;
   color: white;
   font-size: 16px;
   font-weight: 700;
   cursor: pointer;
+  transition: background 0.3s ease;
 }
 
 .feedback-btn:hover {
   background-color: #3f5eea;
 }
-
-
-
