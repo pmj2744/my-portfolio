@@ -399,7 +399,6 @@
       color: #555;
     }
 
-    /* 클릭 유도용 링크 스타일 */
     .open-modal-btn {
       display: inline-block;
       margin-top: 14px;
@@ -485,13 +484,12 @@
       text-align: center;
     }
 
-    /* 🚨 [추가] 프로젝트 이미지 팝업 모달창용 화면 레이아웃 정의 */
     .image-modal {
-      display: none; /* 평소에는 완전히 숨김 */
+      display: none;
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.7); /* 바깥쪽 투명한 어두운 레이어 */
+      background: rgba(0, 0, 0, 0.7);
       z-index: 999;
       justify-content: center;
       align-items: center;
@@ -544,86 +542,6 @@
       100% { transform: translateY(0); }
     }
 
-    @media screen and (max-width: 1024px) {
-      .hero { flex-direction: column; text-align: center; }
-      .hero-text p { margin-left: auto; margin-right: auto; }
-      .button-group { justify-content: center; }
-      .assignment-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-
-    @media screen and (max-width: 768px) {
-      .site-header { flex-direction: column; gap: 14px; }
-      .nav { justify-content: center; flex-wrap: wrap; gap: 12px; }
-      .hero { padding: 60px 6%; }
-      .hero h2 { font-size: 32px; }
-      .profile-card { width: 100%; max-width: 320px; }
-      .section { padding: 60px 6%; }
-      .section h2 { font-size: 26px; }
-      .assignment-grid { grid-template-columns: 1fr; }
-      .project-links a, .link-area a { width: 100%; text-align: center; }
-    }
-
-    .profile-circle {
-      width: 150px;
-      height: 150px;
-      margin: 0 auto 20px;
-      border-radius: 50%;
-      overflow: hidden;
-      background: #dfe7ff;
-    }
-
-    .profile-circle img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .section-desc p { margin-bottom: 10px; line-height: 1.6; }
-    .section-desc p:last-child { margin-bottom: 0; }
-
-    .memo-form textarea {
-      width: 100%;
-      height: 120px;
-      margin-top: 14px;
-      padding: 18px;
-      border: 2px solid #dfe4f2;
-      border-radius: 12px;
-      background-color: #eef1f7;
-      font-size: 16px;
-      color: #333;
-      resize: none;
-      outline: none;
-      transition: all 0.3s ease;
-    }
-
-    .memo-form textarea:focus {
-      border-color: #5b74f1;
-      background-color: #ffffff;
-    }
-
-    .memo-form textarea::placeholder { color: #6b7280; }
-
-    .feedback-btn {
-      display: block;
-      margin-left: auto;
-      margin-top: 14px;
-      padding: 16px 26px;
-      border: none;
-      border-radius: 10px;
-      background-color: #5b74f1;
-      color: white;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-
-    .feedback-btn:hover { background-color: #3f5eea; }
-
-    /* ==========================================================================
-       [다크모드 오버라이딩 스타일]
-       ========================================================================== */
     body.dark-mode {
       background: #111827;
       color: #f9fafb;
@@ -764,7 +682,7 @@
   <main>
     <section class="hero">
       <article class="hero-text">
-        <p class="label">Frontend Portfolio</p>
+        <p class="label">parkminji Portfolio</p>
         <h2>안녕하세요,</h2>
         <h2>웹 프로그래밍을 학습하고 있습니다.</h2>
         <p>HTML과 CSS를 이용해 웹 문서 구조를 설계하고,</p>
@@ -889,7 +807,7 @@
         <h3>Secure Web</h3>
         <p>웹 보안, 애플리케이션 보안, network 보안 등 정보보호 분야의 핵심 보안 기술을 조사하고 정리한 팀프로젝트입니다.</p>
 
-        <span class="open-modal-btn" data-img="images/mid_project.jpg" data-title="중간고사 프로젝트 (Secure Web) 데모 화면">📷 [프로젝트 캡처 이미지 보기]</span>
+        <span class="open-modal-btn" data-img="images/mid_project.png" data-title="중간고사 프로젝트 (Secure Web) 디자인 화면">📷 [프로젝트 캡처 이미지 보기]</span>
 
         <dl class="role-list">
           <dt>프로젝트 주제</dt>
@@ -914,7 +832,7 @@
 
         <div class="project-links">
           <a href="https://hcj1last.vercel.app" target="_blank">팀프로젝트 배포 주소</a>
-          <a href="#" target="_blank">개인 GitHub 소스코드</a>
+          <a href="#" target="_blank">중 프로젝트 소스코드 (GitHub)</a>
         </div>
       </article>
 
@@ -930,9 +848,7 @@
           <dd>안전한 웹 서비스 구현 및 모의 해킹을 통한 웹 취약점(SQL Injection, XSS) 방어 대책 검증</dd>
           <dt>주요 내용</dt>
           <dd>
-            - **개발 및 구현**: HTML5, CSS3, JavaScript를 활용한 프론트엔드 UI/UX 설계 및 Node.js 기반 백엔드 연동<br>
-            - **보안 기능**: 구글 캡차(reCAPTCHA) 우회 방지, 정규표현식 기반의 입력값 필터링, 비밀번호 단방향 암호화 적용<br>
-            - **취약점 분석**: 무차별 대입 공격(Brute Force), SQL 인젝션, 크로스 사이트 스크립팅(XSS) 모의 해킹 시연 및 시나리오 작성
+            웹 보안 위협(DDoS, XSS, API Injection)과 방어 기술(접근 제어, 방화벽)을 조사하고 정리했습니다.
           </dd>
           <dt>팀원 소개</dt>
           <dd>
@@ -987,7 +903,7 @@
   </main>
 
   <footer class="footer">
-    <p>© 2026 박민지 Portfolio</p>
+    <p>© 2026 ParkMinJi Portfolio</p>
   </footer>
 
   <div class="image-modal" id="project-image-modal">
@@ -1164,9 +1080,7 @@
     }
 
     /* -------------------------------------------------------------
-       [🚨 새로 도입된 기말 기능 6] 프로젝트 이미지 팝업 모달 메커니즘
-       - querySelectorAll로 이미지 보기 단추들을 배열 수집하여 이벤트를 매핑
-       - 클릭 이벤트 객체 발생 시 dataset 속성을 읽어와 src와 제목을 동적으로 변경
+       [기말 기능 6] 프로젝트 이미지 팝업 모달 메커니즘
     ------------------------------------------------------------- */
     const openModalButtons = document.querySelectorAll(".open-modal-btn");
     const projectModal = document.querySelector("#project-image-modal");
@@ -1174,26 +1088,21 @@
     const modalTitleText = document.querySelector("#modal-title-text");
     const modalCloseX = document.querySelector("#modal-close-x");
 
-    // 각 프로젝트 상자의 '이미지 보기' 단추 순회 바인딩
     openModalButtons.forEach(function(btn) {
       btn.addEventListener("click", function() {
-        // 단추 안에 미리 숨겨둔 데이터 속성값 읽어오기 (강의자료 166p 응용)
         const targetImgSrc = btn.dataset.img;
         const targetTitle = btn.dataset.title;
 
-        // 모달창 내부 객체에 내용 주입 후 화면 레이아웃 표출 기법
         modalTargetImg.src = targetImgSrc;
         modalTitleText.innerText = targetTitle;
-        projectModal.style.display = "flex"; // 화면 중앙 정렬을 위해 flex 스위칭
+        projectModal.style.display = "flex";
       });
     });
 
-    // 우측 상단 X 단추 클릭 시 모달 팝업 숨기기 
     modalCloseX.addEventListener("click", function() {
       projectModal.style.display = "none";
     });
 
-    // 팝업 뒤쪽의 반투명한 검은 배경을 클릭해도 자동으로 창이 닫히도록 예외 조치 (UX 향상)
     projectModal.addEventListener("click", function(event) {
       if (event.target === projectModal) {
         projectModal.style.display = "none";
