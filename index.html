@@ -124,9 +124,9 @@
               <a href="#" id="more-link" style="color: #3b5bdb; font-weight: bold; text-decoration: underline;">[팀원 상세 역할 더 보기]</a>
             </div>
             <div id="more-desc" style="display: none; margin-top: 10px; background: #f8f9ff; padding: 12px; border-radius: 8px; border-left: 4px solid #3b5bdb;">
-              - 팀원 A: 팀원 소개 화면 구현<br>
-              - 팀원 B: 메인 홈페이지 화면 구현<br>
-              - 팀원 C: Security 화면 구현
+              - 박민지: 팀원 소개 화면(기능) 전체 구현<br>
+              - 박시현: 홈페이지 화면(기능) 전체 구현<br>
+              - 김정은: Security 화면(기능) 전체 구현<br>
             </div>
           </dd>
 
@@ -158,14 +158,14 @@
 
           <dt>팀원 소개</dt>
           <dd>
-            총 3명의 팀원으로 구성되어 역할 분담 후 유기적으로 협업을 진행했습니다.<br>
-            - **팀원 A**: 웹 애플리케이션 프론트엔드 디자인 및 커뮤니티 게시판 레이아웃 구현<br>
-            - **팀원 B**: Node.js 서버 구축, 데이터베이스 연동 및 회원가입/로그인 백엔드 로직 개발<br>
-            - **팀원 C**: 모의 해킹 시나리오 설계, SQL Injection 및 XSS 공격 테스트 및 보안 검증 수행
+            총 3명의 팀원으로 구성되어 역할 분담 후 협업을 진행했습니다.<br>
+            - 박민지: 실시간 현재 시간 출력, Security 퀴즈 시스템 구현<br>
+            - 박시현: 동적 이미지 슬라이더, 정보 검색창 + 검색어 기능 구현<br>
+            - 김정은: 카테고리 필터링, 마우스 이벤트 기반 Security 요약 모달창 기능 구현<br>
           </dd>
 
           <dt>내 역할 (팀장)</dt>
-          <dd>팀장으로서 기말 프로젝트의 전체 일정을 조율하고 산출물(보고서) 작성을 총괄했습니다. 기술적으로는 웹페이지의 전체적인 레이아웃 구조 설계(HTML/CSS)에 참여하고, 수업 시간에 배운 자바스크립트를 활용하여 로그인 폼 필터링 및 프론트엔드 인터랙션 요소를 직접 구현했습니다. 또한, 팀원들이 구현한 프론트엔드 화면과 보안 검증 시나리오가 유기적으로 연결되도록 중간 브릿지 역할을 수행했습니다.</dd>
+          <dd>팀장으로서 기말 프로젝트의 전체 일정을 조율하고 보고서 작성을 총괄했습니다. 기술적으로는 수업 시간에 배운 자바스크립트를 활용하여 구현했습니다. 그리고 중간 브릿지 역할을 수행했습니다.</dd>
         </dl>
 
         <div class="project-links">
@@ -186,25 +186,25 @@
       <form class="memo-form" id="portfolio-memo-form" onsubmit="return false;">
         <fieldset>
           <legend>Portfolio Memo</legend>
-          <label for="feedback">앞으로 보완할 내용 (실시간 방명록 리스트 추가 실습)</label>
-          <textarea id="feedback" placeholder="보완 의견을 여기에 적고 버튼을 누르면 아래에 실시간으로 추가됩니다..."></textarea>
-          <button type="button" id="submit-memo-btn" class="feedback-btn">의견 남기기</button>
+          <label for="feedback">방명록</label>
+          <textarea id="feedback" placeholder="여기에 적고 버튼을 누르면 아래에 실시간으로 추가됩니다..."></textarea>
+          <button type="button" id="submit-memo-btn" class="feedback-btn">작성하기</button>
           
           <div style="margin-top: 20px;">
-            <p style="font-weight: bold; color: #3b5bdb; margin-bottom: 8px;">📝 등록된 보완 의견 목록:</p>
+            <p style="font-weight: bold; color: #3b5bdb; margin-bottom: 8px;">📝 등록된 목록:</p>
             <ul id="memo-list" style="list-style: none; padding: 0;"></ul>
           </div>
         </fieldset>
       </form>
 
       <p class="notice" style="margin-top: 20px;">
-        ※ 학번, 전화번호, 주소 등 구체적인 개인정보는 포함하지 않았습니다.
+        ※ 구체적인 개인정보는 포함하지 않았습니다.
       </p>
     </section>
   </main>
 
   <footer class="footer">
-    <p>© 2026 봄가을겨 Portfolio</p>
+    <p>© 2026 박민 Portfolio</p>
   </footer>
 
   <script>
