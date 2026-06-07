@@ -67,7 +67,6 @@
       color: #3b5bdb;
     }
 
-    /* 토글 스위치 컴포넌트 스타일 - 글씨 제거로 마진 및 배치 최적화 */
     .switch-container {
       display: flex;
       align-items: center;
@@ -400,6 +399,16 @@
       color: #555;
     }
 
+    /* 클릭 유도용 링크 스타일 */
+    .open-modal-btn {
+      display: inline-block;
+      margin-top: 14px;
+      color: #3b5bdb;
+      font-weight: bold;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
     .role-list {
       margin-bottom: 26px;
     }
@@ -474,6 +483,54 @@
       background: #1f2937;
       color: #ffffff;
       text-align: center;
+    }
+
+    /* 🚨 [추가] 프로젝트 이미지 팝업 모달창용 화면 레이아웃 정의 */
+    .image-modal {
+      display: none; /* 평소에는 완전히 숨김 */
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.7); /* 바깥쪽 투명한 어두운 레이어 */
+      z-index: 999;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content-box {
+      position: relative;
+      max-width: 80%;
+      max-height: 80%;
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 16px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      animation: fadeUp 0.3s ease;
+    }
+
+    .modal-content-box img {
+      max-width: 100%;
+      max-height: 60vh;
+      border-radius: 8px;
+      border: 1px solid #dfe4f2;
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: -15px; right: -15px;
+      width: 34px; height: 34px;
+      background: #3b5bdb;
+      color: #ffffff;
+      border: none;
+      border-radius: 50%;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     }
 
     @keyframes fadeUp {
@@ -601,7 +658,8 @@
     body.dark-mode .section-desc,
     body.dark-mode .assignment-card,
     body.dark-mode .team-box,
-    body.dark-mode fieldset {
+    body.dark-mode fieldset,
+    body.dark-mode .modal-content-box {
       background: #1f2937;
       border-color: #374151;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
@@ -609,7 +667,8 @@
 
     body.dark-mode .profile-card h3,
     body.dark-mode .assignment-card h3,
-    body.dark-mode .team-box h3 {
+    body.dark-mode .team-box h3,
+    body.dark-mode .modal-content-box h3 {
       color: #ffffff;
     }
 
@@ -627,6 +686,10 @@
     }
 
     body.dark-mode .clock-container span {
+      color: #818cf8;
+    }
+
+    body.dark-mode .open-modal-btn {
       color: #818cf8;
     }
 
@@ -701,14 +764,14 @@
   <main>
     <section class="hero">
       <article class="hero-text">
-        <p class="label">parkminji Portfolio</p>
+        <p class="label">Frontend Portfolio</p>
         <h2>안녕하세요,</h2>
         <h2>웹 프로그래밍을 학습하고 있습니다.</h2>
         <p>HTML과 CSS를 이용해 웹 문서 구조를 설계하고,</p>
-        <p>Flexbox와 Grid, JS, 미디어 쿼리를 활용해 반응형 포트폴리오 페이지를 구현했습니다.</p>
+        <p>Flexbox와 Grid, 미디어 쿼리를 활용해 반응형 포트폴리오 페이지를 구현했습니다.</p>
         
         <div class="clock-container">
-          현재 시스템 시간: <span id="live-clock">시간을 불러오는 중...</span>
+          ⏱️ 현재 시스템 시간: <span id="live-clock">시간을 불러오는 중...</span>
         </div>
 
         <div class="button-group">
@@ -729,7 +792,7 @@
       <h2>About Me</h2>
       <div class="section-desc">
         <p>저는 사용자가 보기 쉽고 일관성 있는 웹 화면을 만드는 것이 목표입니다.</p>
-        <p>수업 시간에 배운 HTML 시맨틱 태그와 CSS 레이아웃 기법을 활용해 제작했습니다.</p>
+        <p>이번 포트폴리오는 수업 시간에 배운 HTML 시맨틱 태그와 CSS 레이아웃 기법을 활용해 제작했습니다.</p>
         <p>앞으로도 웹 개발 학습을 이어가며, JavaScript까지 확장해 더 나은 웹 페이지를 구현할 수 있는 개발자로 성장하고자 합니다.</p>
       </div>
     </section>
@@ -740,7 +803,7 @@
         <button class="filter-btn active" data-filter="all">전체보기</button>
         <button class="filter-btn" data-filter="structure">구조 설계</button>
         <button class="filter-btn" data-filter="layout">레이아웃</button>
-        <button class="filter-btn" data-filter="javascript">자바스크립트</button>
+        <button class="filter-btn" data-filter="javascript">자바스크립트(기말)</button>
       </div>
 
       <ul class="skill-list" id="skill-container">
@@ -826,13 +889,13 @@
         <h3>Secure Web</h3>
         <p>웹 보안, 애플리케이션 보안, network 보안 등 정보보호 분야의 핵심 보안 기술을 조사하고 정리한 팀프로젝트입니다.</p>
 
+        <span class="open-modal-btn" data-img="images/mid_project.jpg" data-title="중간고사 프로젝트 (Secure Web) 데모 화면">📷 [프로젝트 캡처 이미지 보기]</span>
+
         <dl class="role-list">
           <dt>프로젝트 주제</dt>
           <dd>디지털 세상을 안전하게 지키는 보안 기술 탐구</dd>
-
           <dt>주요 내용</dt>
           <dd>웹 보안 위협(DDoS, XSS, API Injection)과 방어 기술(접근 제어, 방화벽)을 조사하고 정리했습니다.</dd>
-
           <dt>팀원 소개</dt>
           <dd>
             총 3명의 팀으로 프로젝트를 진행하였으며, 각자 역할을 나누어 개발을 진행했습니다.
@@ -845,7 +908,6 @@
               - 김정은: Security 화면(기능) 전체 구현<br>
             </div>
           </dd>
-
           <dt>내 역할</dt>
           <dd>팀장으로 프로젝트 진행을 조율하고, 팀원 간 역할 분배와 일정 관리를 담당했습니다. 또한 팀원 소개 페이지를 직접 구현하고, 웹페이지의 전체 레이아웃 구성에 참여했습니다.</dd>
         </dl>
@@ -861,15 +923,17 @@
         <h3>SecureWeb - 보안 웹 애플리케이션 구현 및 취약점 검증</h3>
         <p>중간고사 때 조사한 웹 보안 이론을 바탕으로, 실제 로그인·회원가입 기능과 커뮤니티 게시판을 갖춘 웹 서비스를 구현하고 OWASP Top 10 기반의 보안 취약점을 방어 및 검증한 턴키 프로젝트입니다.</p>
 
+        <span class="open-modal-btn" data-img="images/final_project.jpg" data-title="기말고사 프로젝트 (SecureWeb 보안 플랫폼) 데모 화면">📷 [프로젝트 캡처 이미지 보기]</span>
+
         <dl class="role-list">
           <dt>프로젝트 주제</dt>
           <dd>안전한 웹 서비스 구현 및 모의 해킹을 통한 웹 취약점(SQL Injection, XSS) 방어 대책 검증</dd>
-
           <dt>주요 내용</dt>
           <dd>
-            웹 보안 위협(DDoS, XSS, API Injection)과 방어 기술(접근 제어, 방화벽)을 조사하고 정리했습니다.
+            - **개발 및 구현**: HTML5, CSS3, JavaScript를 활용한 프론트엔드 UI/UX 설계 및 Node.js 기반 백엔드 연동<br>
+            - **보안 기능**: 구글 캡차(reCAPTCHA) 우회 방지, 정규표현식 기반의 입력값 필터링, 비밀번호 단방향 암호화 적용<br>
+            - **취약점 분석**: 무차별 대입 공격(Brute Force), SQL 인젝션, 크로스 사이트 스크립팅(XSS) 모의 해킹 시연 및 시나리오 작성
           </dd>
-
           <dt>팀원 소개</dt>
           <dd>
             총 3명의 팀으로 프로젝트를 진행하였으며, 각자 역할을 나누어 개발을 진행했습니다.
@@ -883,7 +947,6 @@
               - 김정은: 카테고리 필터링, 마우스 이벤트 기반 Security 요약 모달창 기능 구현<br>
             </div>
           </dd>
-
           <dt>내 역할 (팀장)</dt>
           <dd>팀장으로서 기말 프로젝트의 전체 일정을 조율하고 보고서 작성을 총괄했습니다. 기술적으로는 수업 시간에 배운 자바스크립트를 활용하여 구현했습니다. 그리고 중간 브릿지 역할을 수행했습니다.</dd>
         </dl>
@@ -924,8 +987,16 @@
   </main>
 
   <footer class="footer">
-    <p>© 2026 ParkMinJi Portfolio</p>
+    <p>© 2026 박민지 Portfolio</p>
   </footer>
+
+  <div class="image-modal" id="project-image-modal">
+    <div class="modal-content-box">
+      <button class="modal-close-btn" id="modal-close-x">X</button>
+      <h3 id="modal-title-text" style="margin-bottom: 14px; font-size: 18px;">프로젝트 이미지</h3>
+      <img id="modal-target-img" src="" alt="프로젝트 이미지 상세 원본">
+    </div>
+  </div>
 
   <script>
     /* -------------------------------------------------------------
@@ -993,7 +1064,7 @@
     });
 
     /* -------------------------------------------------------------
-       [기능 3] classList.toggle을 사용한 정석 다크모드 제어 (글씨 없이 토글만 수행)
+       [기능 3] classList.toggle을 사용한 정석 다크모드 제어
     ------------------------------------------------------------- */
     const themeToggleContainer = document.querySelector("#theme-toggle-container");
     
@@ -1077,7 +1148,6 @@
       searchInput.value = "";
     });
 
-    // 최근 검색어 렌더링 함수
     function renderHistory() {
       const tags = historyBox.querySelectorAll(".history-tag");
       tags.forEach(t => t.remove());
@@ -1092,6 +1162,43 @@
         historyBox.appendChild(spanNode);
       });
     }
+
+    /* -------------------------------------------------------------
+       [🚨 새로 도입된 기말 기능 6] 프로젝트 이미지 팝업 모달 메커니즘
+       - querySelectorAll로 이미지 보기 단추들을 배열 수집하여 이벤트를 매핑
+       - 클릭 이벤트 객체 발생 시 dataset 속성을 읽어와 src와 제목을 동적으로 변경
+    ------------------------------------------------------------- */
+    const openModalButtons = document.querySelectorAll(".open-modal-btn");
+    const projectModal = document.querySelector("#project-image-modal");
+    const modalTargetImg = document.querySelector("#modal-target-img");
+    const modalTitleText = document.querySelector("#modal-title-text");
+    const modalCloseX = document.querySelector("#modal-close-x");
+
+    // 각 프로젝트 상자의 '이미지 보기' 단추 순회 바인딩
+    openModalButtons.forEach(function(btn) {
+      btn.addEventListener("click", function() {
+        // 단추 안에 미리 숨겨둔 데이터 속성값 읽어오기 (강의자료 166p 응용)
+        const targetImgSrc = btn.dataset.img;
+        const targetTitle = btn.dataset.title;
+
+        // 모달창 내부 객체에 내용 주입 후 화면 레이아웃 표출 기법
+        modalTargetImg.src = targetImgSrc;
+        modalTitleText.innerText = targetTitle;
+        projectModal.style.display = "flex"; // 화면 중앙 정렬을 위해 flex 스위칭
+      });
+    });
+
+    // 우측 상단 X 단추 클릭 시 모달 팝업 숨기기 
+    modalCloseX.addEventListener("click", function() {
+      projectModal.style.display = "none";
+    });
+
+    // 팝업 뒤쪽의 반투명한 검은 배경을 클릭해도 자동으로 창이 닫히도록 예외 조치 (UX 향상)
+    projectModal.addEventListener("click", function(event) {
+      if (event.target === projectModal) {
+        projectModal.style.display = "none";
+      }
+    });
   </script>
 
 </body>
