@@ -562,35 +562,3 @@ textarea {
 
 
 
-
-
-
-/* 1. 기본 라이트 모드 변수 정의 */
-:root {
-  --bg-main: #f5f7fb;
-  --bg-card: #ffffff;
-  --text-main: #222222;
-  --text-sub: #555555;
-  --border-color: #e5e8ef;
-}
-
-/* 2. 다크 모드 활성화 시 변수 변경 (body에 .dark-mode 클래스가 붙었을 때) */
-body.dark-mode {
-  --bg-main: #121212;
-  --bg-card: #1e1e1e;
-  --text-main: #f5f5f5;
-  --text-sub: #b0b0b0;
-  --border-color: #333333;
-}
-
-/* 3. 기존 스타일에 변수 적용 예시 */
-body {
-  background: var(--bg-main);
-  color: var(--text-main);
-  transition: background 0.3s ease, color 0.3s ease; /* 부드러운 전환 */
-}
-
-.site-header, .profile-card, .assignment-card, .section-desc, .team-box, fieldset {
-  background: var(--bg-card);
-  border-color: var(--border-color);
-}
