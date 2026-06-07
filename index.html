@@ -104,9 +104,11 @@
 
     <section id="team" class="section">
       <h2>Team Project</h2>
-      <article class="team-box">
+      
+      <article class="team-box" style="margin-bottom: 40px;">
+        <span class="label" style="background: #dfe7ff; color: #3b5bdb; font-size: 12px; padding: 4px 10px; margin-bottom: 10px;">중간고사 프로젝트</span>
         <h3>Secure Web</h3>
-        <p>웹 보안, 애플리케이션 보안, 네트워크 보안 등 정보보호 분야의 핵심 보안 기술을 조사하고 정리한 팀프로젝트입니다.</p>
+        <p>웹 보안, 애플리케이션 보안, network 보안 등 정보보호 분야의 핵심 보안 기술을 조사하고 정리한 팀프로젝트입니다.</p>
 
         <dl class="role-list">
           <dt>프로젝트 주제</dt>
@@ -137,6 +139,41 @@
           <a href="#" target="_blank">개인 GitHub 소스코드</a>
         </div>
       </article>
+
+      <article class="team-box">
+        <span class="label" style="background: #eebfef; color: #b83bdb; font-size: 12px; padding: 4px 10px; margin-bottom: 10px;">기말고사 프로젝트</span>
+        <h3>SecureWeb - 보안 웹 애플리케이션 구현 및 취약점 검증</h3>
+        <p>중간고사 때 조사한 웹 보안 이론을 바탕으로, 실제 로그인·회원가입 기능과 커뮤니티 게시판을 갖춘 웹 서비스를 구현하고 OWASP Top 10 기반의 보안 취약점을 방어 및 검증한 턴키 프로젝트입니다.</p>
+
+        <dl class="role-list">
+          <dt>프로젝트 주제</dt>
+          <dd>안전한 웹 서비스 구현 및 모의 해킹을 통한 웹 취약점(SQL Injection, XSS) 방어 대책 검증</dd>
+
+          <dt>주요 내용</dt>
+          <dd>
+            - **개발 및 구현**: HTML5, CSS3, JavaScript를 활용한 프론트엔드 UI/UX 설계 및 Node.js 기반 백엔드 연동<br>
+            - **보안 기능**: 구글 캡차(reCAPTCHA) 우회 방지, 정규표현식 기반의 입력값 필터링, 비밀번호 단방향 암호화 적용<br>
+            - **취약점 분석**: 무차별 대입 공격(Brute Force), SQL 인젝션, 크로스 사이트 스크립팅(XSS) 모의 해킹 시연 및 시나리오 작성
+          </dd>
+
+          <dt>팀원 소개</dt>
+          <dd>
+            총 3명의 팀원으로 구성되어 역할 분담 후 유기적으로 협업을 진행했습니다.<br>
+            - **팀원 A**: 웹 애플리케이션 프론트엔드 디자인 및 커뮤니티 게시판 레이아웃 구현<br>
+            - **팀원 B**: Node.js 서버 구축, 데이터베이스 연동 및 회원가입/로그인 백엔드 로직 개발<br>
+            - **팀원 C**: 모의 해킹 시나리오 설계, SQL Injection 및 XSS 공격 테스트 및 보안 검증 수행
+          </dd>
+
+          <dt>내 역할 (팀장)</dt>
+          <dd>팀장으로서 기말 프로젝트의 전체 일정을 조율하고 산출물(보고서) 작성을 총괄했습니다. 기술적으로는 웹페이지의 전체적인 레이아웃 구조 설계(HTML/CSS)에 참여하고, 수업 시간에 배운 자바스크립트를 활용하여 로그인 폼 필터링 및 프론트엔드 인터랙션 요소를 직접 구현했습니다. 또한, 팀원들이 구현한 프론트엔드 화면과 보안 검증 시나리오가 유기적으로 연결되도록 중간 브릿지 역할을 수행했습니다.</dd>
+        </dl>
+
+        <div class="project-links">
+          <a href="https://hcj1last.vercel.app" target="_blank">팀프로젝트 배포 주소</a>
+          <a href="#" target="_blank">기말 프로젝트 소스코드 (GitHub)</a>
+        </div>
+      </article>
+
     </section>
 
     <section id="links" class="section">
@@ -155,8 +192,7 @@
           
           <div style="margin-top: 20px;">
             <p style="font-weight: bold; color: #3b5bdb; margin-bottom: 8px;">📝 등록된 보완 의견 목록:</p>
-            <ul id="memo-list" style="list-style: none; padding: 0;">
-              </ul>
+            <ul id="memo-list" style="list-style: none; padding: 0;"></ul>
           </div>
         </fieldset>
       </form>
@@ -181,13 +217,13 @@
     const moreDesc = document.querySelector("#more-desc");
 
     moreLink.addEventListener("click", function(event) {
-      event.preventDefault(); // 클릭 시 페이지가 위로 튕기는 기본 현상 방지
+      event.preventDefault(); 
       
       if (moreDesc.style.display === "none") {
-        moreDesc.style.display = "block"; // 노드 보이기
+        moreDesc.style.display = "block"; 
         moreLink.innerText = "[상세 역할 접기]";
       } else {
-        moreDesc.style.display = "none";  // 노드 숨기기
+        moreDesc.style.display = "none";  
         moreLink.innerText = "[팀원 상세 역할 더 보기]";
       }
     });
@@ -210,10 +246,8 @@
         return;
       }
 
-      // 1. 요소 노드 만들기 (li 태그)
       const newLi = document.createElement("li");
       
-      // 스타일 지정 (가독성을 위한 인라인 스타일 부여)
       newLi.style.padding = "10px 14px";
       newLi.style.background = "#f0f4ff";
       newLi.style.borderLeft = "4px solid #748ffc";
@@ -222,16 +256,10 @@
       newLi.style.color = "#333";
       newLi.style.fontSize = "14px";
 
-      // 2. 텍스트 노드 만들기 
       const newText = document.createTextNode(textValue);
-
-      // 3. 자식 노드로 연결 (li에 텍스트 장착)
       newLi.appendChild(newText);
-
-      // 4. 부모 노드에 최종 연결 (ul에 완성된 li 장착)
       memoList.appendChild(newLi);
 
-      // 입력 완료 후 창 비우기
       feedbackInput.value = "";
     });
 
@@ -244,10 +272,8 @@
     const themeToggleBtn = document.querySelector("#theme-toggle-btn");
     
     themeToggleBtn.addEventListener("click", function() {
-      // 현재 body의 배경색 상태를 확인 (초기값 공백 또는 기존 배경색 체크)
       if (document.body.style.backgroundColor === "" || document.body.style.backgroundColor === "rgb(245, 247, 251)") {
         
-        // [다크 모드 변환] 강의 자료 규칙에 맞춰 backgroundColor, color 제어
         document.body.style.backgroundColor = "#1e2937";
         document.body.style.color = "#ffffff";
         
@@ -257,7 +283,6 @@
         
       } else {
         
-        // [라이트 모드 복구]
         document.body.style.backgroundColor = "#f5f7fb";
         document.body.style.color = "#222222";
         
