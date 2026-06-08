@@ -659,7 +659,6 @@
       background: linear-gradient(135deg, #111827, #1f2937, #111827);
     }
 
-    /* 처음 설정된 위치 정보 건드리지 않고 오직 색깔만 스위칭 */
     body.dark-mode .profile-card,
     body.dark-mode .section-desc,
     body.dark-mode .assignment-card,
@@ -951,7 +950,7 @@
               - 김정은: 카테고리 필터링, 마우스 이벤트 기반 Security 요약 모달창 기능 구현<br>
             </div>
           </dd>
-          <dt>내 역할</dt>
+          <dt>내 역할 (팀장)</dt>
           <dd>팀장으로서 기말 프로젝트의 전체 일정을 조율하고 보고서 작성을 총괄했습니다. 기술적으로는 수업 시간에 배운 자바스크립트를 활용하여 구현했습니다. 그리고 중간 브릿지 역할을 수행했습니다.</dd>
         </dl>
 
@@ -1038,11 +1037,20 @@
     });
 
     /* -------------------------------------------------------------
-       [기능 2] DOM 노드 동적 생성 및 추가 (방명록 한 줄 메모)
+       [기능 2 - LocalStorage 연동 고도화] 방명록 동적 노드 관리
+       - 브라우저 내장 저장소를 활용해 새로고침해도 데이터 유지 (기말 핵심 기능)
     ------------------------------------------------------------- */
     const submitMemoBtn = document.querySelector("#submit-memo-btn");
     const feedbackInput = document.querySelector("#feedback");
     const memoList = document.querySelector("#memo-list");
+
+    // 페이지 초기화 시 로컬 스토리지에 담긴 리스트 객체 파싱 복원
+    let savedMemos = JSON.parse(localStorage.getItem("portfolioMemos")) || [];
+    
+    // 복원 데이터 렌더링 루프 순회
+    savedMemos.forEach(function(text) {
+      createMemoElement(text);
+    });
 
     submitMemoBtn.addEventListener("click", function() {
       const textValue = feedbackInput.value.trim();
@@ -1051,6 +1059,18 @@
         return;
       }
 
+      // 1. DOM 조작을 통한 동적 UI 요소 삽입
+      createMemoElement(textValue);
+
+      // 2. 직렬화(JSON.stringify) 후 LocalStorage 스토리지 캡슐화 보존
+      savedMemos.push(textValue);
+      localStorage.setItem("portfolioMemos", JSON.stringify(savedMemos));
+
+      feedbackInput.value = "";
+    });
+
+    // 팩토리 패턴 형태의 노드 객체 조립기 내장 함수화
+    function createMemoElement(text) {
       const newLi = document.createElement("li");
       newLi.style.padding = "10px 14px";
       newLi.style.background = "#f0f4ff";
@@ -1060,12 +1080,10 @@
       newLi.style.color = "#333";
       newLi.style.fontSize = "14px";
 
-      const newText = document.createTextNode(textValue);
+      const newText = document.createTextNode(text);
       newLi.appendChild(newText);
       memoList.appendChild(newLi);
-
-      feedbackInput.value = "";
-    });
+    }
 
     /* -------------------------------------------------------------
        [기능 3] classList.toggle을 사용한 정석 다크모드 제어
@@ -1077,7 +1095,7 @@
     });
 
     /* -------------------------------------------------------------
-       [기말 기능 1] 내장 Date 객체를 활용한 실시간 현재 시간 출력
+       [기말 기능] 내장 Date 객체를 활용한 실시간 현재 시간 출력
     ------------------------------------------------------------- */
     function updateClock() {
       const clockElement = document.querySelector("#live-clock");
@@ -1119,7 +1137,7 @@
     });
 
     /* -------------------------------------------------------------
-       [기말 기능 2] 정보 검색창 + 검색어 저장 및 제한 히스토리 기능
+       [기말 기능] 정보 검색창 + 검색어 저장 및 제한 히스토리 기능
     ------------------------------------------------------------- */
     const searchInput = document.querySelector("#search-input");
     const searchBtn = document.querySelector("#search-btn");
@@ -1168,7 +1186,7 @@
     }
 
     /* -------------------------------------------------------------
-       [기말 기능 6] 프로젝트 이미지 팝업 모달 메커니즘
+       [기말 기능] 프로젝트 이미지 팝업 모달 메커니즘
     ------------------------------------------------------------- */
     const openModalButtons = document.querySelectorAll(".open-modal-btn");
     const projectModal = document.querySelector("#project-image-modal");
