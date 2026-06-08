@@ -538,7 +538,7 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     }
 
-    /* [폭죽용 캔버스 디자인 설계] 화면 전체를 덮는 투명 도화지 설정 */
+    /* [폭죽용 디자인 설계] 화면 전체를 덮는 투명 도화지 설정 */
     #confetti-canvas {
       position: fixed;
       top: 0; left: 0;
@@ -636,7 +636,7 @@
     .feedback-btn:hover { background-color: #3f5eea; }
 
     /* ==========================================================================
-       [수정: 원본 구조에 상처를 주지 않고 색상만 변경하는 다크모드 컴포넌트]
+       [수정: 색상만 변경하는 다크모드 컴포넌트]
        ========================================================================== */
     body.dark-mode {
       background: #111827;
@@ -760,10 +760,11 @@
 </head>
 <body>
 
+  <!-- [폭죽용 도화지 설치] 브라우저 전체화면을 덮는 캔버스 태그 배치 -->
   <canvas id="confetti-canvas"></canvas>
 
   <header class="site-header">
-    <h1 class="logo">MY PORTFOLIO</h1>
+    <h1 class="logo">PORTFOLIO</h1>
 
     <nav class="nav">
       <a href="#about">About</a>
@@ -901,6 +902,7 @@
     <section id="team" class="section">
       <h2>Team Project</h2>
       
+      <!-- [1] 중간고사 프로젝트 카드 -->
       <article class="team-box" style="margin-bottom: 40px;">
         <span class="label" style="background: #dfe7ff; color: #3b5bdb; font-size: 12px; padding: 4px 10px; margin-bottom: 10px;">중간고사 프로젝트</span>
         <h3>Secure Web</h3>
@@ -935,6 +937,7 @@
         </div>
       </article>
 
+      <!-- [2] 기말고사 프로젝트 카드 -->
       <article class="team-box">
         <span class="label" style="background: #eebfef; color: #b83bdb; font-size: 12px; padding: 4px 10px; margin-bottom: 10px;">기말고사 프로젝트</span>
         <h3>SecureWeb</h3>
@@ -1049,16 +1052,14 @@
     });
 
     /* -------------------------------------------------------------
-       [기능 2 - 전면 대고도화 완료] LocalStorage 방명록 연동 + 타임스탬프 저장 + 삭제 버튼 동적 생성 + 버튼 위치 폭죽 연동
+       [기능 2] LocalStorage 방명록 연동 + 타임스탬프 저장 + 삭제 버튼 동적 생성 + 버튼 위치 폭죽 연동
     ------------------------------------------------------------- */
     const submitMemoBtn = document.querySelector("#submit-memo-btn");
     const feedbackInput = document.querySelector("#feedback");
     const memoList = document.querySelector("#memo-list");
 
-    // 초기 실행 시 스토리지 파싱 로드 (구조를 객체 배열형태로 변경)
     let savedMemos = JSON.parse(localStorage.getItem("portfolioMemos")) || [];
     
-    // 초기 복원 드로잉
     savedMemos.forEach(function(memoObj, index) {
       createMemoElement(memoObj.text, memoObj.time, index);
     });
@@ -1070,31 +1071,26 @@
         return;
       }
 
-      // 1. 현재 날짜와 시간 구하기 [2026-06-08 13:05 포맷화]
       const now = new Date();
       const timeString = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
 
-      // 2. 고유 인덱스 설정 후 화면에 노드 그리기
       const currentIdx = savedMemos.length;
       createMemoElement(textValue, timeString, currentIdx);
 
-      // 3. 배열에 객체 구조로 주입 후 스토리지 보존
       savedMemos.push({ text: textValue, time: timeString });
       localStorage.setItem("portfolioMemos", JSON.stringify(savedMemos));
 
-      // 4. 🎆 [폭죽 궤도 변경] 작성하기 버튼 객체의 실시간 화면상 절대 좌표를 추출하여 그 포인트에서 가동
       const buttonRect = submitMemoBtn.getBoundingClientRect();
       const fireX = buttonRect.left + (buttonRect.width / 2);
-      const fireY = buttonRect.top + window.scrollY; // 스크롤 높이를 반영한 절대 Y 좌표 연산
+      const fireY = buttonRect.top + window.scrollY; 
       startConfetti(fireX, fireY);
 
       feedbackInput.value = "";
     });
 
-    // 팩토리 형태의 복합 노드 생성기 (텍스트 노드 + 시간 노드 + 삭제 단추 노드 한 묶음 조립)
     function createMemoElement(text, time, index) {
       const newLi = document.createElement("li");
-      newLi.setAttribute("data-index", index); // 구별용 인덱스 속성 부여
+      newLi.setAttribute("data-index", index); 
       newLi.style.padding = "12px 14px";
       newLi.style.background = "#f0f4ff";
       newLi.style.borderLeft = "4px solid #748ffc";
@@ -1106,7 +1102,6 @@
       newLi.style.justifyContent = "space-between";
       newLi.style.alignItems = "center";
 
-      // 왼쪽 영역 (텍스트 내용 + 날짜 도장)
       const contentSpan = document.createElement("span");
       const textSpan = document.createElement("span");
       textSpan.innerText = text;
@@ -1120,7 +1115,6 @@
       contentSpan.appendChild(textSpan);
       contentSpan.appendChild(timeSpan);
 
-      // 오른쪽 영역 (삭제용 물리 단추 노드 생성 기법)
       const deleteBtn = document.createElement("button");
       deleteBtn.innerText = "삭제";
       deleteBtn.style.padding = "4px 8px";
@@ -1132,17 +1126,11 @@
       deleteBtn.style.fontSize = "11px";
       deleteBtn.style.fontWeight = "bold";
 
-      // 개별 삭제 이벤트 바인딩 (DOM 트리에서 노드를 파괴하고 스토리지 배열 동기화 기법)
       deleteBtn.addEventListener("click", function() {
         if (confirm("이 방명록을 삭제하시겠습니까?")) {
-          // 1. DOM 트리에서 해당 li 노드 즉각 삭제
           newLi.remove();
-
-          // 2. LocalStorage 리스트 배열 동기화 리셋
           savedMemos = savedMemos.filter((_, idx) => idx !== index);
           localStorage.setItem("portfolioMemos", JSON.stringify(savedMemos));
-          
-          // 3. 인덱스 꼬임 방지를 위한 새로고침 처리 (가장 안전)
           location.reload();
         }
       });
@@ -1283,13 +1271,15 @@
     });
 
     /* -------------------------------------------------------------
-       [보너스 역량 고도화형] 순수 자바스크립트 HTML5 Canvas 기반 폭죽 파티클 애니메이션 엔진
-       - 입력 인자값(x, y)을 다이나믹 추적 타겟팅하도록 로직 캡슐화 완료
+       [추가 기능] 순수 자바스크립트 HTML5 Canvas 기반 폭죽 파티클 애니메이션 엔진
+       - [수정] 다크모드에서도 아주 선명하고 화려하게 빛나는 고대비 야간 네온과 파스텔 컬러 코드로 변경!
     ------------------------------------------------------------- */
     const canvas = document.getElementById("confetti-canvas");
     const ctx = canvas.getContext("2d");
     let particles = [];
-    const colors = ["#3b5bdb", "#748ffc", "#f59e0b", "#10b981", "#eebfef", "#ff8787"];
+    
+    // 고명도 네온 스펙트럼 컬러 리스트
+    const colors = ["#ff007f", "#ff00ff", "#00ffff", "#00ff00", "#ffff00", "#ff7f00", "#a5b4fc", "#ff93f5"];
 
     function resizeCanvas() {
       canvas.width = window.innerWidth;
@@ -1301,13 +1291,13 @@
     function Particle(x, y) {
       this.x = x;
       this.y = y;
-      this.size = Math.random() * 8 + 4;
-      this.speedX = Math.random() * 12 - 6; // 발사 반경 최적화
-      this.speedY = Math.random() * -12 - 4; // 위로 이쁘게 치솟는 각도 벡터 연산
+      this.size = Math.random() * 7 + 4;
+      this.speedX = Math.random() * 12 - 6; 
+      this.speedY = Math.random() * -13 - 5; // 힘차고 균형감 있게 터지도록 발사 각도 최적화
       this.gravity = 0.35; 
-      this.color = colors[Math.floor(Math.random() * colors.colors? colors.length : colors.length)];
+      this.color = colors[Math.floor(Math.random() * colors.length)];
       this.opacity = 1;
-      this.fade = Math.random() * 0.02 + 0.015; 
+      this.fade = Math.random() * 0.018 + 0.012; 
     }
 
     Particle.prototype.update = function() {
@@ -1324,12 +1314,10 @@
       ctx.fillRect(this.x, this.y, this.size, this.size);
     };
 
-    // 🚨 버튼 좌표값(targetX, targetY)을 인자로 받아 그 지점에서 정확히 연산 발사되도록 제어
     function startConfetti(targetX, targetY) {
-      // 뷰포트 스크롤 오프셋 보정 연산
       const adjustedY = targetY - window.scrollY;
 
-      for (let i = 0; i < 100; i++) {
+      for (let i = 0; i < 110; i++) {
         particles.push(new Particle(targetX, adjustedY));
       }
       
