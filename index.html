@@ -538,7 +538,7 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     }
 
-    /* 🚨 [폭죽용 캔버스 디자인 설계] 화면 전체를 덮는 투명 도화지 설정 */
+    /* [폭죽용 캔버스 디자인 설계] 화면 전체를 덮는 투명 도화지 설정 */
     #confetti-canvas {
       position: fixed;
       top: 0; left: 0;
@@ -635,6 +635,9 @@
 
     .feedback-btn:hover { background-color: #3f5eea; }
 
+    /* ==========================================================================
+       [수정: 원본 구조에 상처를 주지 않고 색상만 변경하는 다크모드 컴포넌트]
+       ========================================================================== */
     body.dark-mode {
       background: #111827;
       color: #f9fafb;
@@ -665,6 +668,7 @@
       background: linear-gradient(135deg, #111827, #1f2937, #111827);
     }
 
+    /* 처음 설정된 위치 정보 건드리지 않고 오직 색깔만 스위칭 */
     body.dark-mode .profile-card,
     body.dark-mode .section-desc,
     body.dark-mode .assignment-card,
@@ -981,7 +985,7 @@
         <fieldset>
           <legend>Portfolio Memo</legend>
           <label for="feedback">방명록</label>
-          <textarea id="feedback" placeholder="여기에 적고 버튼을 누르면 아래에 실시간으로 추가됩니다..."></textarea>
+          <textarea id="feedback" placeholder="여기에 적고 버튼을 누르면 그 위치에서 폭죽이 터집니다..."></textarea>
           <button type="button" id="submit-memo-btn" class="feedback-btn">작성하기</button>
           
           <div style="margin-top: 20px;">
@@ -1045,20 +1049,18 @@
     });
 
     /* -------------------------------------------------------------
-       [기능 2 - LocalStorage 연동 고도화] 방명록 동적 노드 관리 + 🎆축하 폭죽 이펙트 연동
-       - 브라우저 내장 저장소를 활용해 새로고침해도 데이터 유지
-       - 정상적인 데이터 방명록 추가 시 순수 자바스크립트 폭죽 애니메이션 함수 호출
+       [기능 2 - 전면 대고도화 완료] LocalStorage 방명록 연동 + 타임스탬프 저장 + 삭제 버튼 동적 생성 + 버튼 위치 폭죽 연동
     ------------------------------------------------------------- */
     const submitMemoBtn = document.querySelector("#submit-memo-btn");
     const feedbackInput = document.querySelector("#feedback");
     const memoList = document.querySelector("#memo-list");
 
-    // 페이지 초기화 시 로컬 스토리지에 담긴 리스트 객체 파싱 복원
+    // 초기 실행 시 스토리지 파싱 로드 (구조를 객체 배열형태로 변경)
     let savedMemos = JSON.parse(localStorage.getItem("portfolioMemos")) || [];
     
-    // 복원 데이터 렌더링 루프 순회
-    savedMemos.forEach(function(text) {
-      createMemoElement(text);
+    // 초기 복원 드로잉
+    savedMemos.forEach(function(memoObj, index) {
+      createMemoElement(memoObj.text, memoObj.time, index);
     });
 
     submitMemoBtn.addEventListener("click", function() {
@@ -1068,32 +1070,85 @@
         return;
       }
 
-      // 1. DOM 조작을 통한 동적 UI 요소 삽입
-      createMemoElement(textValue);
+      // 1. 현재 날짜와 시간 구하기 [2026-06-08 13:05 포맷화]
+      const now = new Date();
+      const timeString = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
 
-      // 2. 직렬화(JSON.stringify) 후 LocalStorage 스토리지 보존
-      savedMemos.push(textValue);
+      // 2. 고유 인덱스 설정 후 화면에 노드 그리기
+      const currentIdx = savedMemos.length;
+      createMemoElement(textValue, timeString, currentIdx);
+
+      // 3. 배열에 객체 구조로 주입 후 스토리지 보존
+      savedMemos.push({ text: textValue, time: timeString });
       localStorage.setItem("portfolioMemos", JSON.stringify(savedMemos));
 
-      // 3. 🎆 [폭죽 트리거] 방명록 작성이 완료되면 폭죽 파티클 작동 함수 호출
-      startConfetti();
+      // 4. 🎆 [폭죽 궤도 변경] 작성하기 버튼 객체의 실시간 화면상 절대 좌표를 추출하여 그 포인트에서 가동
+      const buttonRect = submitMemoBtn.getBoundingClientRect();
+      const fireX = buttonRect.left + (buttonRect.width / 2);
+      const fireY = buttonRect.top + window.scrollY; // 스크롤 높이를 반영한 절대 Y 좌표 연산
+      startConfetti(fireX, fireY);
 
       feedbackInput.value = "";
     });
 
-    // 노드 객체 조립기
-    function createMemoElement(text) {
+    // 팩토리 형태의 복합 노드 생성기 (텍스트 노드 + 시간 노드 + 삭제 단추 노드 한 묶음 조립)
+    function createMemoElement(text, time, index) {
       const newLi = document.createElement("li");
-      newLi.style.padding = "10px 14px";
+      newLi.setAttribute("data-index", index); // 구별용 인덱스 속성 부여
+      newLi.style.padding = "12px 14px";
       newLi.style.background = "#f0f4ff";
       newLi.style.borderLeft = "4px solid #748ffc";
       newLi.style.marginBottom = "8px";
       newLi.style.borderRadius = "4px";
       newLi.style.color = "#333";
       newLi.style.fontSize = "14px";
+      newLi.style.display = "flex";
+      newLi.style.justifyContent = "space-between";
+      newLi.style.alignItems = "center";
 
-      const newText = document.createTextNode(text);
-      newLi.appendChild(newText);
+      // 왼쪽 영역 (텍스트 내용 + 날짜 도장)
+      const contentSpan = document.createElement("span");
+      const textSpan = document.createElement("span");
+      textSpan.innerText = text;
+      
+      const timeSpan = document.createElement("span");
+      timeSpan.innerText = ` [${time}]`;
+      timeSpan.style.fontSize = "11px";
+      timeSpan.style.color = "#666";
+      timeSpan.style.marginLeft = "8px";
+
+      contentSpan.appendChild(textSpan);
+      contentSpan.appendChild(timeSpan);
+
+      // 오른쪽 영역 (삭제용 물리 단추 노드 생성 기법)
+      const deleteBtn = document.createElement("button");
+      deleteBtn.innerText = "삭제";
+      deleteBtn.style.padding = "4px 8px";
+      deleteBtn.style.background = "#ff8787";
+      deleteBtn.style.color = "#fff";
+      deleteBtn.style.border = "none";
+      deleteBtn.style.borderRadius = "4px";
+      deleteBtn.style.cursor = "pointer";
+      deleteBtn.style.fontSize = "11px";
+      deleteBtn.style.fontWeight = "bold";
+
+      // 개별 삭제 이벤트 바인딩 (DOM 트리에서 노드를 파괴하고 스토리지 배열 동기화 기법)
+      deleteBtn.addEventListener("click", function() {
+        if (confirm("이 방명록을 삭제하시겠습니까?")) {
+          // 1. DOM 트리에서 해당 li 노드 즉각 삭제
+          newLi.remove();
+
+          // 2. LocalStorage 리스트 배열 동기화 리셋
+          savedMemos = savedMemos.filter((_, idx) => idx !== index);
+          localStorage.setItem("portfolioMemos", JSON.stringify(savedMemos));
+          
+          // 3. 인덱스 꼬임 방지를 위한 새로고침 처리 (가장 안전)
+          location.reload();
+        }
+      });
+
+      newLi.appendChild(contentSpan);
+      newLi.appendChild(deleteBtn);
       memoList.appendChild(newLi);
     }
 
@@ -1228,15 +1283,14 @@
     });
 
     /* -------------------------------------------------------------
-       [추가 기능] 순수 자바스크립트 HTML5 Canvas 기반 폭죽 파티클 애니메이션 엔진
-       - requestAnimationFrame을 활용해 수학적 중력 속도 백터 연산 시뮬레이션 구현
+       [보너스 역량 고도화형] 순수 자바스크립트 HTML5 Canvas 기반 폭죽 파티클 애니메이션 엔진
+       - 입력 인자값(x, y)을 다이나믹 추적 타겟팅하도록 로직 캡슐화 완료
     ------------------------------------------------------------- */
     const canvas = document.getElementById("confetti-canvas");
     const ctx = canvas.getContext("2d");
     let particles = [];
     const colors = ["#3b5bdb", "#748ffc", "#f59e0b", "#10b981", "#eebfef", "#ff8787"];
 
-    // 브라우저 윈도우 크기에 맞게 도화지 사이즈 맞춤 연산
     function resizeCanvas() {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -1244,22 +1298,20 @@
     window.addEventListener("resize", resizeCanvas);
     resizeCanvas();
 
-    // 폭죽 색종이 파티클 설계 (생성자 객체 패턴 형태)
     function Particle(x, y) {
       this.x = x;
       this.y = y;
       this.size = Math.random() * 8 + 4;
-      // 발사 벡터 연산 (좌우 상하 랜덤 퍼짐 속도)
-      this.speedX = Math.random() * 10 - 5;
-      this.speedY = Math.random() * -15 - 5;
-      this.gravity = 0.4; // 수학적 중력 값
-      this.color = colors[Math.floor(Math.random() * colors.length)];
+      this.speedX = Math.random() * 12 - 6; // 발사 반경 최적화
+      this.speedY = Math.random() * -12 - 4; // 위로 이쁘게 치솟는 각도 벡터 연산
+      this.gravity = 0.35; 
+      this.color = colors[Math.floor(Math.random() * colors.colors? colors.length : colors.length)];
       this.opacity = 1;
-      this.fade = Math.random() * 0.015 + 0.01; // 자연스러운 투명도 페이드 아웃 값
+      this.fade = Math.random() * 0.02 + 0.015; 
     }
 
     Particle.prototype.update = function() {
-      this.speedY += this.gravity; // 시간에 따른 중력 가속도 물리 연산 적용
+      this.speedY += this.gravity; 
       this.x += this.speedX;
       this.y += this.speedY;
       this.opacity -= this.fade;
@@ -1269,40 +1321,34 @@
       ctx.fillStyle = this.color;
       ctx.globalAlpha = this.opacity;
       ctx.beginPath();
-      // 사각형 조각 또는 원형 조각 드로잉
       ctx.fillRect(this.x, this.y, this.size, this.size);
     };
 
-    // 방명록 이벤트 완료 시 호출되는 발사기 함수
-    function startConfetti() {
-      // 중앙 하단(방명록 영역 주변)에서 사방으로 분사되도록 좌표 초기화
-      const startX = window.innerWidth / 2;
-      const startY = window.innerHeight * 0.8;
-      
-      // 100개의 조각 파티클 인스턴스 배열 루프 생성
-      for (let i = 0; i < 120; i++) {
-        particles.push(new Particle(startX, startY));
+    // 🚨 버튼 좌표값(targetX, targetY)을 인자로 받아 그 지점에서 정확히 연산 발사되도록 제어
+    function startConfetti(targetX, targetY) {
+      // 뷰포트 스크롤 오프셋 보정 연산
+      const adjustedY = targetY - window.scrollY;
+
+      for (let i = 0; i < 100; i++) {
+        particles.push(new Particle(targetX, adjustedY));
       }
       
       animateConfetti();
     }
 
-    // 끊김 없는 부드러운 하드웨어 가속 60fps 애니메이션 루프
     function animateConfetti() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height); // 프레임 지우기
+      ctx.clearRect(0, 0, canvas.width, canvas.height); 
 
       for (let i = 0; i < particles.length; i++) {
         particles[i].update();
         particles[i].draw();
 
-        // 투명해져서 안 보이는 파티클은 메모리 최적화를 위해 배열에서 삭제 제거
         if (particles[i].opacity <= 0) {
           particles.splice(i, 1);
           i--;
         }
       }
 
-      // 살아있는 색종이가 남아있으면 루프 함수 비동기 재귀 반복 요청
       if (particles.length > 0) {
         requestAnimationFrame(animateConfetti);
       } else {
